@@ -11,3 +11,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
  - Project's initial commit (25/08/2025)
  - Changelog file (25/08/2025)
+ - Pull request template file (25/08/2025)
+ - Started Unity project (25/08/2025)
