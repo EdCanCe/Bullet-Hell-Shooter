@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Time manager script (25/08/2025)
  - Script to launch enemies (26/08/2025)
  - Sprites for enemies (26/08/2025)
+ - Prefabs for bullets (26/08/2025)
+ - Player bullet shoot (26/08/2025)
+ - Song start script (26/08/2025)
 
 ## [0.0.0] - 25/08/2025
 
