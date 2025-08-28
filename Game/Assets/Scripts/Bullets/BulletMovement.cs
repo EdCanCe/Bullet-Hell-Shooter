@@ -20,7 +20,7 @@ public class BulletMovement : MonoBehaviour
     public float maxY;
 
     /// <summary>
-    /// Is called once per frame
+    /// Is called once per frame.
     /// </summary>
     void Update()
     {
@@ -32,13 +32,14 @@ public class BulletMovement : MonoBehaviour
         float currentY = transform.position.y;
         if (currentX < minX || currentX > maxX || currentY < minY || currentY > maxY)
         {
-            Destroy(gameObject);
+            // Disables the bullet due to the use of an object pool
+            gameObject.SetActive(false);
         }
 
         // Update the speed according to the acceleration
         speed = VectorManager.Rotate(speed, acceleration * Time.deltaTime);
 
-        // Rotate the bullet
-        transform.Rotate(new Vector3(0, 0, acceleration * Time.deltaTime));
+        // Rotates the bullet
+        transform.Rotate(0, 0, acceleration * Time.deltaTime);
     }
 }
