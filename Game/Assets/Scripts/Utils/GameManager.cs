@@ -6,12 +6,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // The current value of the info displayed on the UI
-    public static int currentStage;
-    public static int currentEnemies;
-    public static int currentEnemyBullets;
-    public static int healthPoints;
-    public static int currentPlayerBullets;
-    public static float nextBulletTime;
+    public static int currentStage = 1;
+    public static int currentEnemies = 0;
+    public static int currentEnemyBullets = 0;
+    public static int healthPoints = 3;
+    public static int currentPlayerBullets = 0;
+    public static float nextBulletTime = 0;
 
 
     // To use singleton pattern
@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    /// <summary>
+    /// Is called once before the first execution of Update
+    /// after the MonoBehaviour is created.
+    /// </summary>
+    private void Start()
+    {
     }
 
     /// <summary>

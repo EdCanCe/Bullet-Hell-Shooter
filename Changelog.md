@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Sound manager script (28/08/2025)
  - Game manager script (28/08/2025)
  - UI manager script (28/08/2025)
+ - Shot cooldown for player (28/08/2025)
 
 
 ## [0.0.0] - 25/08/2025

@@ -93,7 +93,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            instance.nextBulletTime.text = Convert.ToString(value * 1000) + "ms";
+            instance.nextBulletTime.text = Convert.ToString((int)(value * 1000)) + "ms";
         }
     }
 }

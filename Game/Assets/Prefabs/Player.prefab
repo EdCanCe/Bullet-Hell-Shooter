@@ -388,5 +388,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
   spriteRight: {fileID: 2559108176257750855}
   spriteLeft: {fileID: 5604631518043316134}
-  bullet: {fileID: 7562208661673446858, guid: 1f631e5fde2253df59e774c242a033d3, type: 3}
   baseSpeed: 160
+  timeToShoot: 0.3
