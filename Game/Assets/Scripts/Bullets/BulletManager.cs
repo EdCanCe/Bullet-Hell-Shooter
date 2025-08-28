@@ -52,7 +52,7 @@ class BulletManager : MonoBehaviour
         }
 
         // Establishes the edges
-        edges = LimitManager.GetLimits(parent, -20);
+        edges = LimitManager.GetLimits(parent, -10);
     }
 
     /// <summary>
@@ -144,6 +144,9 @@ class BulletManager : MonoBehaviour
         movement.minY = edges[1];
         movement.maxX = edges[2];
         movement.maxY = edges[3];
+
+        // Adds a bullet to the counter in the UI
+        EnableBullet(bulletObject);
     }
 
     /// <summary>
@@ -165,6 +168,44 @@ class BulletManager : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             Place(bullet, position, instance.baseAngle + extraAngle + separation * i, 0, acceleration);
+        }
+    }
+
+    /// <summary>
+    /// Disables a bullet and substracts 1 to the counter of bullets
+    /// in the UI.
+    /// </summary>
+    /// <param name="bullet">The game object of the bullet.</param>
+    public static void DisableBullet(GameObject bullet)
+    {
+        // Disables the bullet due to the use a pool
+        bullet.SetActive(false);
+
+        // Depending on the type of bullet, modifies its counter
+        if (bullet.gameObject.tag == "HeroSide")
+        {
+            GameManager.ModifyCurrentPlayerBullets(-1);
+        }
+        else
+        {
+            GameManager.ModifyCurrentEnemyBullets(-1);
+        }
+    }
+
+    /// <summary>
+    /// Adds 1 to the counter of bullets in the UI.
+    /// </summary>
+    /// <param name="bullet">The game object of the bullet.</param>
+    public static void EnableBullet(GameObject bullet)
+    {
+        // Depending on the type of bullet, modifies its counter
+        if (bullet.gameObject.tag == "HeroSide")
+        {
+            GameManager.ModifyCurrentPlayerBullets(1);
+        }
+        else
+        {
+            GameManager.ModifyCurrentEnemyBullets(1);
         }
     }
 }

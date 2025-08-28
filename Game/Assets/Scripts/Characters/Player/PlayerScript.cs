@@ -23,6 +23,10 @@ public class PlayerScript : MonoBehaviour
     private float minY;
     private float maxY;
 
+    // The time that has passed since the user shot a bullet
+    public float timeToShoot;
+    private float counterToShoot;
+
     /// <summary>
     /// Is called once before the first execution of Update 
     /// after the MonoBehaviour is created.
@@ -37,6 +41,9 @@ public class PlayerScript : MonoBehaviour
         minY = edges[1];
         maxX = edges[2];
         maxY = edges[3];
+
+        // Enables the shooting in the 1st frame
+        counterToShoot = 0;
     }
 
     /// <summary>
@@ -57,18 +64,66 @@ public class PlayerScript : MonoBehaviour
         // The new position is set whilst being limited to not go out of bounds
         transform.position = new Vector3(Math.Min(Math.Max(minX, newPos.x), maxX), Math.Min(Math.Max(minY, newPos.y), maxY));
 
+        if (counterToShoot != 0)
+        {
+            counterToShoot -= Time.deltaTime;
+
+            // Sets to 0
+            if (counterToShoot <= 0)
+            {
+                counterToShoot = 0;
+            }
+
+            // Updates the UI
+            GameManager.ModifyNextBulletTime(counterToShoot);
+        }
+
         // The user shoots a bullet
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKey(KeyCode.J) && counterToShoot == 0)
         {
             // The bullet is placed on the map
             BulletManager.Place(0, transform.position, 90, 200, 0);
 
             // A sound is played to give the player feedback
             SoundManager.PlayerShot();
+
+            // Resets the counter to shoot again
+            counterToShoot = timeToShoot;
+            GameManager.ModifyNextBulletTime(counterToShoot);
         }
 
         // The sprites of the player are rotated
         spriteRight.transform.Rotate(0, 0, Time.deltaTime * baseSpeed);
-        spriteLeft.transform.Rotate(0, 0, Time.deltaTime * - baseSpeed);
+        spriteLeft.transform.Rotate(0, 0, Time.deltaTime * -baseSpeed);
+    }
+    
+    /// <summary>
+    /// A method called when the player collides.
+    /// </summary>
+    /// <param name="collision">The collider that collisioned with the player.</param>
+    protected void OnTriggerEnter2D(Collider2D collision)
+    {
+        // If the collision is with the bullet of an enemy
+        if (collision.gameObject.tag != gameObject.tag)
+        {
+            GameManager.ModifyHealthPoints(-1);
+
+            // If has no health points, the enemy dies
+            if (GameManager.healthPoints <= 0)
+            {
+                SoundManager.KillSFX();
+                Destroy(gameObject);
+
+                // Ends the game
+                //GameManager.
+            }
+            else
+            {
+                SoundManager.HitSFX();
+            }
+
+            // Disables the bullet and updates de UI
+            BulletManager.DisableBullet(collision.gameObject);
+        }
     }
 }

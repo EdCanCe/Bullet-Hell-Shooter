@@ -30,6 +30,7 @@ public class BaseEnemyScript : MonoBehaviour
     protected void EnemyStart()
     {
         bulletCounter = 0;
+        GameManager.ModifyCurrentEnemies(1);
         StartCoroutine(MoveToFrom(startingPosition, endingPosition, travelTime));
     }
 
@@ -78,14 +79,17 @@ public class BaseEnemyScript : MonoBehaviour
             {
                 SoundManager.KillSFX();
                 Destroy(gameObject);
+
+                // Updates the UI by substracting one enemy
+                GameManager.ModifyCurrentEnemies(-1);
             }
             else
             {
                 SoundManager.HitSFX();
             }
 
-            // Disables the bullet
-            collision.gameObject.SetActive(false);
+            // Disables the bullet and updates de UI
+            BulletManager.DisableBullet(collision.gameObject);
         }
     }
 }
