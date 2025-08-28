@@ -33,7 +33,7 @@ public class BulletMovement : MonoBehaviour
         if (currentX < minX || currentX > maxX || currentY < minY || currentY > maxY)
         {
             // Disables the bullet due to the use of an object pool
-            gameObject.SetActive(false);
+            BulletManager.DisableBullet(gameObject);
         }
 
         // Update the speed according to the acceleration
