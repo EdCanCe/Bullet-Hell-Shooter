@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9dd6ea1b9555123ad98dae855c35d857
+guid: 390bffb77ec9ee244bfe6f45d3f8510f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6533038239110119275
-    second: CharacterTurnLeft_0
+      213: -3170747201195620603
+    second: NormalEnemy_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterTurnLeft_0
+      name: NormalEnemy_0
       rect:
         serializedVersion: 2
-        x: 228
-        y: 126
-        width: 860
-        height: 416
+        x: 28
+        y: 14
+        width: 442
+        height: 469
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5904cc5c55cf555a0800000000000000
-      internalID: -6533038239110119275
+      spriteID: 507cb28483e3ff3d0800000000000000
+      internalID: -3170747201195620603
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 41ba47319a0aff30d8b5ef65b9c80c01
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CharacterTurnLeft_0: -6533038239110119275
+      NormalEnemy_0: -3170747201195620603
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

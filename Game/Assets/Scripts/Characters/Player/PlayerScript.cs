@@ -6,16 +6,9 @@ using System;
 /// </summary>
 public class PlayerScript : MonoBehaviour
 {
-    // The sprites the player will have
-    public Sprite normalSprite;
-    public Sprite leftSprite;
-    public Sprite rightSprite;
-
-    // The sprite renderer that will render the previous spries
-    public SpriteRenderer renderer;
-
-    // The bullet the player can shoot
-    public GameObject bullet;
+    // The sprites of the player
+    public GameObject spriteRight;
+    public GameObject spriteLeft;
 
     // The base speed of the player
     public float baseSpeed;
@@ -31,43 +24,29 @@ public class PlayerScript : MonoBehaviour
     private float maxY;
 
     /// <summary>
-    /// Is called once before the first execution of Update after the MonoBehaviour is created
+    /// Is called once before the first execution of Update 
+    /// after the MonoBehaviour is created.
     /// </summary>
     void Start()
     {
         // Gets the coordinates of the game area corners
-        Vector3[] corners = new Vector3[4];
-        transform.parent.GetComponent<RectTransform>().GetWorldCorners(corners);
+        float[] edges = LimitManager.GetLimits(transform.parent.gameObject, 4);
 
         // Gets the axis limits of the game area
-        minX = corners[0].x + 4;
-        minY = corners[0].y + 4;
-        maxX = corners[2].x - 4;
-        maxY = corners[2].y - 4;
+        minX = edges[0];
+        minY = edges[1];
+        maxX = edges[2];
+        maxY = edges[3];
     }
 
     /// <summary>
-    /// Is called once per frame
+    /// Is called once per frame.
     /// </summary>
     void Update()
     {
         // Gets the inputs of the player
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-
-        // Depending on the current input changes the sprite
-        if (horizontalInput < 0)
-        {
-            renderer.sprite = leftSprite;
-        }
-        else if (horizontalInput > 0)
-        {
-            renderer.sprite = rightSprite;
-        }
-        else
-        {
-            renderer.sprite = normalSprite;
-        }
 
         // Depending on the inputs, creates a vector of the change in position in the frame
         Vector3 posChange = new Vector3(horizontalInput, verticalInput, 0).normalized * baseSpeed * Time.deltaTime * (Input.GetKey(KeyCode.L) ? 0.5f : 1f);
@@ -81,7 +60,15 @@ public class PlayerScript : MonoBehaviour
         // The user shoots a bullet
         if (Input.GetKeyDown(KeyCode.J))
         {
-            BulletManager.Place(transform.parent.gameObject, bullet, transform.position, 90, 200, 0, new float[] { minX, minY, maxX, maxY });
+            // The bullet is placed on the map
+            BulletManager.Place(0, transform.position, 90, 200, 0);
+
+            // A sound is played to give the player feedback
+            SoundManager.PlayerShot();
         }
+
+        // The sprites of the player are rotated
+        spriteRight.transform.Rotate(0, 0, Time.deltaTime * baseSpeed);
+        spriteLeft.transform.Rotate(0, 0, Time.deltaTime * - baseSpeed);
     }
 }

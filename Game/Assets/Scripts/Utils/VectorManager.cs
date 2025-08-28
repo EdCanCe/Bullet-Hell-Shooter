@@ -11,7 +11,7 @@ static class VectorManager
     /// </summary>
     /// <param name="vector">The vector to rotate.</param>
     /// <param name="degrees">The angle in degrees to rotate the vector.</param>
-    /// <returns>The rotated vector</returns>
+    /// <returns>The rotated vector.</returns>
     public static Vector3 Rotate(Vector3 vector, float degrees)
     {
         // Gets the vector's magnitude
