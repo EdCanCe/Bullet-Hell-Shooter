@@ -147,6 +147,20 @@ class BulletManager : MonoBehaviour
 
         // Adds a bullet to the counter in the UI
         EnableBullet(bulletObject);
+
+        // Plays its corresponding sound
+        switch (bullet)
+        {
+            case 0:
+                SoundManager.PlayerShot();
+                break;
+            case 3:
+                SoundManager.EnemyShot02();
+                break;
+            default:
+                SoundManager.EnemyShot01();
+                break;
+        }
     }
 
     /// <summary>

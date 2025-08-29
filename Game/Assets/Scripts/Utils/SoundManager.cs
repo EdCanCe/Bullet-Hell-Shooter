@@ -9,6 +9,10 @@ public class SoundManager : MonoBehaviour
     public AudioSource hitSFX;
     public AudioSource killSFX;
     public AudioSource playerShot;
+    public AudioSource enemyShot01;
+    public AudioSource enemyShot02;
+    public AudioSource normalSong;
+    public AudioSource bossSong;
 
     // To use singleton pattern
     private static SoundManager instance;
@@ -51,5 +55,21 @@ public class SoundManager : MonoBehaviour
     public static void PlayerShot()
     {
         instance.playerShot.Play(0);
+    }
+
+    /// <summary>
+    /// Plays the enemy shot 1 sound effect.
+    /// </summary>
+    public static void EnemyShot01()
+    {
+        instance.enemyShot01.Play(0);
+    }
+
+    /// <summary>
+    /// Plays the enemy shot 2 sound effect.
+    /// </summary>
+    public static void EnemyShot02()
+    {
+        instance.enemyShot01.Play(0);
     }
 }

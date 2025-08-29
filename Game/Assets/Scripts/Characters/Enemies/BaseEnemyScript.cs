@@ -30,7 +30,7 @@ public class BaseEnemyScript : CharacterScript
 
         // Initializes the bullet counter and the movement flags
         bulletCounter = 0;
-        lastMovement = 0;
+        lastMovement = -1;
         activateNextMovement = true;
 
         // Adds an enemy to the UI
@@ -38,14 +38,13 @@ public class BaseEnemyScript : CharacterScript
     }
 
     /// <summary>
-    /// A corroutine used to move the enemy.
+    /// A coroutine used to move the enemy.
     /// </summary>
     /// <param name="startingPoint">The place the enemy will start.</param>
     /// <param name="endingPoint">The place the enemy will end.</param>
     /// <param name="travelTime">The amount of time the travel will take.</param>
-    /// <param name="currentCheckpoint">The last checkpoint the enemy was moved to.</param>
     /// <returns></returns>
-    protected IEnumerator MoveToFrom(Vector3 startingPoint, Vector3 endingPoint, float travelTime, int currentCheckpoint)
+    protected IEnumerator MoveToFrom(Vector3 startingPoint, Vector3 endingPoint, float travelTime)
     {
         // Locks the flag to prevent from moving
         activateNextMovement = false;
@@ -66,11 +65,11 @@ public class BaseEnemyScript : CharacterScript
 
         // Frees the flag to enable movement again
         activateNextMovement = true;
-        lastMovement = currentCheckpoint;
+        lastMovement +=1 ;
     }
 
     /// <summary>
-    /// A corroutine used to move the enemy in circles. 
+    /// A coroutine used to move the enemy in circles. 
     /// </summary>
     /// <param name="center">The center of the circle.</param>
     /// <param name="amountOfLoops">The amount of loops to do.</param>

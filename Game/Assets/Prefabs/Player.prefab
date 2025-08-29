@@ -386,5 +386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 230e9cdfc8d2833a8bda2e7632dd6a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
+  tickAmount: 8
   baseSpeed: 160
-  timeToShoot: 0.3
+  timeToShoot: 0.15

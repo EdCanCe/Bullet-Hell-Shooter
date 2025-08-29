@@ -80,10 +80,7 @@ public class PlayerScript : CharacterScript
         if (Input.GetKey(KeyCode.J) && counterToShoot == 0)
         {
             // The bullet is placed on the map
-            BulletManager.Place(0, transform.position, 90, 200, 0);
-
-            // A sound is played to give the player feedback
-            SoundManager.PlayerShot();
+            BulletManager.Place(0, transform.position, 90, 400, 0);
 
             // Resets the counter to shoot again
             counterToShoot = timeToShoot;

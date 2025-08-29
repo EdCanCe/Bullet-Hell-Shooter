@@ -12,7 +12,7 @@ public class EnemyS01P01Script : BaseEnemyScript
     void Start()
     {
         EnemyStart();
-        bulletTimer = 0.15f;
+        bulletTimer = 0.5f;
     }
 
     /// <summary>
@@ -29,19 +29,7 @@ public class EnemyS01P01Script : BaseEnemyScript
             bulletCounter = bulletTimer;
 
             // Places a round of bullets
-            BulletManager.PlaceRound(1, transform.position, 6, 0, 0, "");
+            BulletManager.PlaceRound(1, transform.position, 1, 0, 0, "");
         }
     }
 }
-
-
-/*
-
-        // Continues the movement
-        currentCheckpoint += 1;
-        if (currentCheckpoint == checkpoints.Count) {
-            currentCheckpoint = 0;
-        }
-        StartCoroutine(MoveToFrom(endingPoint, checkpoints[currentCheckpoint], travelTime, currentCheckpoint));
-
-*/

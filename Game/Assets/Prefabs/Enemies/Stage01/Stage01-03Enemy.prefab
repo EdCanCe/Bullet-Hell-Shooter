@@ -100,9 +100,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1012580515493824218}
   - component: {fileID: 8801928753916796136}
-  - component: {fileID: -475665607845591186}
+  - component: {fileID: 5367306079729327835}
   m_Layer: 0
-  m_Name: Stage01-01Enemy
+  m_Name: Stage01-03Enemy
   m_TagString: EnemySide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,7 @@ PolygonCollider2D:
       - {x: 0.3187828, y: 53.506622}
       - {x: -55.81428, y: 0.19825745}
   m_UseDelaunayMesh: 0
---- !u!114 &-475665607845591186
+--- !u!114 &5367306079729327835
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,9 +184,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5899994449811048099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ec984f7bcff39d8bbb5f2c235dc3934, type: 3}
+  m_Script: {fileID: 11500000, guid: dc7cde2a43168191d89f992f57a410f8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stage01v01Script
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyS01P03Script
   tickAmount: 4
   checkpoints: []
-  healthPoints: 3
+  healthPoints: 5
+  initialPosition: {x: 0, y: 0, z: 0}
+  rotateSpeed: 60
+  travelSpeed: 0

@@ -12,6 +12,9 @@ public class CharacterScript : MonoBehaviour
     // The sprites of the character
     protected SpriteRenderer[] sprites;
 
+    // The amount of ticks the animation will play
+    public int tickAmount;
+
     /// <summary>
     /// It's called in the start method of its child classes.
     /// </summary>
@@ -41,7 +44,7 @@ public class CharacterScript : MonoBehaviour
         // The current status of the sprite
         bool currentStatus = true;
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < tickAmount; i++)
         {
             while (animationCounter <= animationTick)
             {
