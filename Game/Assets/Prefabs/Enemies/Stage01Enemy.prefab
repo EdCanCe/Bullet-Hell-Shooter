@@ -189,11 +189,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stage01Script
   bulletTimer: 1
   gameArea: {fileID: 0}
-  bullet: {fileID: 4424514990395266888, guid: d99819db813360f1283cc2e4360e6b43, type: 3}
+  bulletType: 0
   startingPosition: {x: 0, y: 0, z: 0}
   endingPosition: {x: 0, y: 0, z: 0}
   travelTime: 0
   healthPoints: 4
   sprite: {fileID: 4832816199539781292}
-  sprite1: {fileID: 0}
-  rotationSpeed: 0
+  rotationSpeed: -90

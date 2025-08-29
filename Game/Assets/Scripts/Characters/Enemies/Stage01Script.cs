@@ -5,12 +5,6 @@ using UnityEngine;
 /// </summary>
 public class Stage01Script : BaseEnemyScript
 {
-    // The sprite of the enemy
-    public GameObject sprite;
-
-    // The speed it's sprite will rotate
-    public float rotationSpeed;
-
     /// <summary>
     /// Is called once before the first execution of Update
     /// after the MonoBehaviour is created.
@@ -18,6 +12,9 @@ public class Stage01Script : BaseEnemyScript
     void Start()
     {
         EnemyStart();
+        //StartCoroutine(MoveToFrom(checkpoints[0], checkpoints[1], travelTime, 0));
+        bulletTimer = 0.05f;
+        StartCoroutine(MoveAround(checkpoints[0], 10, 10f));
     }
 
     /// <summary>
@@ -36,8 +33,17 @@ public class Stage01Script : BaseEnemyScript
             // Places a round of bullets
             BulletManager.PlaceRound(1, transform.position, 6, 0, 0, "");
         }
-
-        // Rotates the sprite
-        sprite.transform.Rotate(bulletType, 0, Time.deltaTime * rotationSpeed);
     }
 }
+
+
+/*
+
+        // Continues the movement
+        currentCheckpoint += 1;
+        if (currentCheckpoint == checkpoints.Count) {
+            currentCheckpoint = 0;
+        }
+        StartCoroutine(MoveToFrom(endingPoint, checkpoints[currentCheckpoint], travelTime, currentCheckpoint));
+
+*/

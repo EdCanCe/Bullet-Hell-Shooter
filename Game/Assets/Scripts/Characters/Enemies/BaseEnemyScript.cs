@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// The base methods and attributes every enemy has.
@@ -7,19 +8,18 @@ using System.Collections;
 public class BaseEnemyScript : MonoBehaviour
 {
     // The time between each of the rounds the enemy has
-    public float bulletTimer;
+    protected float bulletTimer;
     protected float bulletCounter;
 
     // The game area that the enemy is held in
     public GameObject gameArea;
 
-    // The type of bullet the enemy has
-    public int bulletType;
-
     // The path the enemy follows
-    public Vector3 startingPosition;
-    public Vector3 endingPosition;
-    public float travelTime;
+    public List<Vector3> checkpoints;
+
+    // Used to know when to move the enemy again
+    protected bool activateNextMovement;
+    protected int lastMovement;
 
     // The health points the enemy has
     public int healthPoints;
@@ -29,9 +29,13 @@ public class BaseEnemyScript : MonoBehaviour
     /// </summary>
     protected void EnemyStart()
     {
+        // Initializes the bullet counter and the movement flags
         bulletCounter = 0;
+        lastMovement = 0;
+        activateNextMovement = true;
+
+        // Adds an enemy to the UI
         GameManager.ModifyCurrentEnemies(1);
-        StartCoroutine(MoveToFrom(startingPosition, endingPosition, travelTime));
     }
 
     /// <summary>
@@ -40,9 +44,13 @@ public class BaseEnemyScript : MonoBehaviour
     /// <param name="startingPoint">The place the enemy will start.</param>
     /// <param name="endingPoint">The place the enemy will end.</param>
     /// <param name="travelTime">The amount of time the travel will take.</param>
+    /// <param name="currentCheckpoint">The last checkpoint the enemy was moved to.</param>
     /// <returns></returns>
-    protected IEnumerator MoveToFrom(Vector3 startingPoint, Vector3 endingPoint, float travelTime)
+    protected IEnumerator MoveToFrom(Vector3 startingPoint, Vector3 endingPoint, float travelTime, int currentCheckpoint)
     {
+        // Locks the flag to prevent from moving
+        activateNextMovement = false;
+
         transform.position = startingPoint;
 
         Vector3 currentPoint = startingPoint;
@@ -57,8 +65,53 @@ public class BaseEnemyScript : MonoBehaviour
             yield return null;
         }
 
-        // Goes back to its starting point
-        StartCoroutine(MoveToFrom(endingPoint, startingPoint, travelTime));
+        // Frees the flag to enable movement again
+        activateNextMovement = true;
+        lastMovement = currentCheckpoint;
+    }
+
+    /// <summary>
+    /// A corroutine used to move the enemy in circles. 
+    /// </summary>
+    /// <param name="center">The center of the circle.</param>
+    /// <param name="amountOfLoops">The amount of loops to do.</param>
+    /// <param name="travelTime">The time to do all of the loops.</param>
+    /// <returns></returns>
+    protected IEnumerator MoveAround(Vector3 center, int amountOfLoops, float travelTime)
+    {
+        // Locks the flag to prevent from moving
+        activateNextMovement = false;
+
+        // Gets the starting distance to the center
+        Vector3 startingDistance = transform.position - center;
+
+        // Time variables needed to do the movement in the given time 
+        float timeElapsed = 0;
+        float timePerLoop = travelTime / amountOfLoops;
+
+        // The current distance the enemy is from the center
+        Vector3 currentDistance;
+
+        // Each one of the loops;
+        for (int i = 0; i < amountOfLoops; i++)
+        {
+            while (timeElapsed < travelTime)
+            {
+                // Updates the distante to the one it needs to be
+                currentDistance = VectorManager.Rotate(startingDistance, timeElapsed / timePerLoop * 360f);
+
+                // Adds the distance to the center, to obtain its position
+                transform.position = currentDistance + center;
+
+                timeElapsed += Time.deltaTime;
+
+                yield return null;
+            }
+        }
+
+        // Frees the flag to enable movement again
+        activateNextMovement = true;
+        lastMovement = -2;
     }
 
     /// <summary>

@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     public static int currentPlayerBullets = 0;
     public static float nextBulletTime = 0;
 
+    // The GameObjects needed to spawn and control everything
+    public GameObject gameArea;
+    public GameObject mainMenu;
+    public GameObject player;
+
 
     // To use singleton pattern
     private static GameManager instance;
@@ -39,6 +44,27 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // Shows the menu
+        gameArea.SetActive(false);
+        mainMenu.SetActive(true);
+    }
+
+    /// <summary>
+    /// The method called after pressing the start game button
+    /// </summary>
+    public void StartGame()
+    {
+        // Activates the game area
+        gameArea.SetActive(true);
+
+        // Activates the player
+        Instantiate(player, new Vector3(-414, -368, 0), Quaternion.Euler(0, 0, 0), gameArea.transform);
+
+        // Starts the first stage
+
+        // Hides the menu
+        mainMenu.SetActive(false);
+
     }
 
     /// <summary>
