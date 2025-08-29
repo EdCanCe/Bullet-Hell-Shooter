@@ -100,9 +100,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1012580515493824218}
   - component: {fileID: 8801928753916796136}
-  - component: {fileID: 5633176872539149452}
+  - component: {fileID: -475665607845591186}
   m_Layer: 0
-  m_Name: Stage01Enemy
+  m_Name: Stage01-01Enemy
   m_TagString: EnemySide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,8 +118,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4638131317185437544}
   m_Father: {fileID: 0}
@@ -175,7 +175,7 @@ PolygonCollider2D:
       - {x: 0.3187828, y: 53.506622}
       - {x: -55.81428, y: 0.19825745}
   m_UseDelaunayMesh: 0
---- !u!114 &5633176872539149452
+--- !u!114 &-475665607845591186
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,13 +186,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ec984f7bcff39d8bbb5f2c235dc3934, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stage01Script
-  bulletTimer: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Stage01v01Script
   gameArea: {fileID: 0}
-  bulletType: 0
-  startingPosition: {x: 0, y: 0, z: 0}
-  endingPosition: {x: 0, y: 0, z: 0}
-  travelTime: 0
-  healthPoints: 4
-  sprite: {fileID: 4832816199539781292}
-  rotationSpeed: -90
+  checkpoints: []
+  healthPoints: 3

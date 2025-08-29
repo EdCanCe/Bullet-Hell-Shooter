@@ -5,14 +5,11 @@ using System.Collections.Generic;
 /// <summary>
 /// The base methods and attributes every enemy has.
 /// </summary>
-public class BaseEnemyScript : MonoBehaviour
+public class BaseEnemyScript : CharacterScript
 {
     // The time between each of the rounds the enemy has
     protected float bulletTimer;
     protected float bulletCounter;
-
-    // The game area that the enemy is held in
-    public GameObject gameArea;
 
     // The path the enemy follows
     public List<Vector3> checkpoints;
@@ -29,6 +26,8 @@ public class BaseEnemyScript : MonoBehaviour
     /// </summary>
     protected void EnemyStart()
     {
+        CharacterStart();
+
         // Initializes the bullet counter and the movement flags
         bulletCounter = 0;
         lastMovement = 0;
@@ -123,7 +122,7 @@ public class BaseEnemyScript : MonoBehaviour
     protected void OnTriggerEnter2D(Collider2D collision)
     {
         // If the collision is with the bullet of a hero
-        if (collision.gameObject.tag != gameObject.tag)
+        if (collision.gameObject.tag != gameObject.tag && immortal == false)
         {
             healthPoints -= 1;
 
@@ -138,7 +137,9 @@ public class BaseEnemyScript : MonoBehaviour
             }
             else
             {
+                // Plays the hit animation and SFX
                 SoundManager.HitSFX();
+                StartCoroutine(HitAnimation());
             }
 
             // Disables the bullet and updates de UI

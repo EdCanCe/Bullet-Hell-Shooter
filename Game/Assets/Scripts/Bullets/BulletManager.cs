@@ -128,7 +128,7 @@ class BulletManager : MonoBehaviour
         GameObject bulletObject = RequestToPool(bullet);
 
         // Positions and rotates the bullet
-        bulletObject.transform.position = position;
+        bulletObject.transform.position = new Vector3(position.x, position.y, 0);
         bulletObject.transform.rotation = Quaternion.Euler(0, 0, rotation);
 
         // I looked in ChatGPT how to access the BulletMovement component from another class

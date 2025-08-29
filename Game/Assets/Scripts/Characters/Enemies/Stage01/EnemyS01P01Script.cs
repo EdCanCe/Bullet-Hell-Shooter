@@ -1,9 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-/// The stage 1 enemy logic.
+/// The stage 1 phase 1 enemy logic.
 /// </summary>
-public class Stage01Script : BaseEnemyScript
+public class EnemyS01P01Script : BaseEnemyScript
 {
     /// <summary>
     /// Is called once before the first execution of Update
@@ -12,9 +12,7 @@ public class Stage01Script : BaseEnemyScript
     void Start()
     {
         EnemyStart();
-        //StartCoroutine(MoveToFrom(checkpoints[0], checkpoints[1], travelTime, 0));
-        bulletTimer = 0.05f;
-        StartCoroutine(MoveAround(checkpoints[0], 10, 10f));
+        bulletTimer = 0.15f;
     }
 
     /// <summary>
