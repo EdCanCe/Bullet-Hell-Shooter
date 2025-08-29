@@ -38,6 +38,18 @@ public class BaseEnemyScript : CharacterScript
     }
 
     /// <summary>
+    /// If the enemy gets disabled and the player loses,
+    /// it destroys its object.
+    /// </summary>
+    void OnDisable()
+    {
+        if (GameManager.healthPoints <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
     /// A coroutine used to move the enemy.
     /// </summary>
     /// <param name="startingPoint">The place the enemy will start.</param>
@@ -65,7 +77,7 @@ public class BaseEnemyScript : CharacterScript
 
         // Frees the flag to enable movement again
         activateNextMovement = true;
-        lastMovement +=1 ;
+        lastMovement += 1;
     }
 
     /// <summary>

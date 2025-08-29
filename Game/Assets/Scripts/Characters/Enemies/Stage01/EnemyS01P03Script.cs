@@ -11,6 +11,8 @@ public class EnemyS01P03Script : BaseEnemyScript
 
     public float travelSpeed;
 
+    private bool bulletModifier;
+
     /// <summary>
     /// Is called once before the first execution of Update
     /// after the MonoBehaviour is created.
@@ -20,6 +22,8 @@ public class EnemyS01P03Script : BaseEnemyScript
         EnemyStart();
         bulletTimer = 0.5f;
         lastMovement = -1;
+
+        bulletModifier = true;
 
         // Moves from outside the game area to inside of it
         StartCoroutine(MoveToFrom(transform.position, initialPosition, 3));
@@ -39,8 +43,17 @@ public class EnemyS01P03Script : BaseEnemyScript
             bulletCounter = bulletTimer;
 
             // Places a round of bullets
-            BulletManager.PlaceRound(1, transform.position, 1, 10, 0, "");
-            BulletManager.PlaceRound(1, transform.position, 1, -10, 0, "");
+            if (bulletModifier)
+            {
+                BulletManager.PlaceRound(1, transform.position, 1, 10, 0, "0");
+                BulletManager.PlaceRound(1, transform.position, 1, -10, 0, "0");
+            }
+            else
+            {
+                BulletManager.PlaceRound(1, transform.position, 2, 0, 0, "0");
+            }
+
+            bulletModifier = !bulletModifier;
         }
 
         // Waits for the flag to move again

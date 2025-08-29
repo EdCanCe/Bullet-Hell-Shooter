@@ -35,7 +35,8 @@ public class EnemyS01P02Script : BaseEnemyScript
             bulletCounter = bulletTimer;
 
             // Places a round of bullets
-            BulletManager.PlaceRound(1, transform.position, 5, 0, 0, "");
+            BulletManager.PlaceRound(1, transform.position, 1, -10, 0, "0");
+            BulletManager.PlaceRound(1, transform.position, 1, 10, 0, "0");
         }
 
         // Waits for the flag to move again

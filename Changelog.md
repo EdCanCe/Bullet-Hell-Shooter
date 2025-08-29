@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
  - Main menu button (28/08/2025)
+ - Stage 01 (29/08/2025)
+ - Stage 02 (28/08/2025)
+ - Support for math expressions with NCalc (28/08/2025)
 
 ## [0.0.1] - 25/08/2025
 

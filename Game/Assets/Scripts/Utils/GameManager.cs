@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// Manages the game and its stages.
@@ -54,12 +55,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // Shows the menu
-        gameArea.SetActive(false);
-        mainMenu.SetActive(true);
-
-        // Marks that the game hasn's started yet
-        currentPhase = -1;
+        ShowMenu();
     }
 
     /// <summary>
@@ -101,7 +97,7 @@ public class GameManager : MonoBehaviour
     /// <param name="modifier">The amount it's going to be modified.</param>
     public static void ModifyCurrentStage(int modifier)
     {
-        currentStage += modifier;
+        currentStage = modifier;
         UIManager.UpdateCurrentStage(currentStage);
     }
 
@@ -167,7 +163,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Depending on the current phase and the enemies defeated, calls another stage
-        if (currentPhase == 0)
+        if (healthPoints == 0)
+        {
+            // If there are no health points, you lose the game
+            Lose();
+        }
+        else if (currentPhase == 0)
         {
             PlayStage01();
         }
@@ -182,7 +183,24 @@ public class GameManager : MonoBehaviour
         else if (currentPhase == 3 && enemiesDefeated == 7)
         {
             // Waits some time to go to the next stage
-            StartCoroutine(StageChange(6));
+            StartCoroutine(StageChange(2));
+        }
+        else if (currentPhase == 5)
+        {
+            PlayStage04();
+        }
+        else if (currentPhase == 6 && enemiesDefeated == 9)
+        {
+            PlayStage05();
+        }
+        else if (currentPhase == 7 && enemiesDefeated == 11)
+        {
+            // Waits some time to go to the next stage
+            StartCoroutine(StageChange(3));
+        }
+        else if (currentPhase == 9)
+        {
+            PlayStage06();
         }
     }
 
@@ -192,8 +210,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="nextStage"></param>
     /// <returns></returns>
-    private IEnumerate StageChange(int nextStage)
+    private IEnumerator StageChange(int nextStage)
     {
+        currentPhase += 1;
+
         // The final stage should have more prep time
         float timeToWait = nextStage == 2 ? 3 : 5;
 
@@ -211,6 +231,7 @@ public class GameManager : MonoBehaviour
         ModifyCurrentStage(nextStage);
 
         // Waits the other half
+        waitCounter = 0;
         while (waitCounter <= timeToWait)
         {
             waitCounter += Time.deltaTime;
@@ -225,7 +246,35 @@ public class GameManager : MonoBehaviour
         }
 
         // The enemy of wating time without doing nothing ;)
-        enemiesDefeated += 1;
+        currentPhase += 1;
+    }
+
+    /// <summary>
+    /// Show the main menu and disables the game area.
+    /// </summary>
+    private void ShowMenu()
+    {
+        BulletManager.Initialize();
+
+        // Shows the menu
+        gameArea.SetActive(false);
+        mainMenu.SetActive(true);
+
+        // Marks that the game hasn's started yet
+        currentPhase = -1;
+
+        healthPoints = -1;
+    }
+
+    /// <summary>
+    /// When the user loses, it shows the main menu.
+    /// </summary>
+    private void Lose()
+    {
+        UIManager.UpdateMenuTitle("YOU LOSE");
+        UIManager.UpdatePlayButton("PLAY AGAIN");
+
+        ShowMenu();
     }
 
     /// <summary>
@@ -239,7 +288,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts the first stage.
+    /// Continues the first stage.
     /// Fight against minions.
     /// </summary>
     private void PlayStage02()
@@ -249,13 +298,43 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts the first stage.
+    /// Ends the first stage.
     /// Fight against minions.
     /// </summary>    
     private void PlayStage03()
     {
         currentPhase += 1;
         Instantiate(instance.stage01Phase03, gameArea.transform);
+    }
+
+    /// <summary>
+    /// Starts the second stage.
+    /// Fight against minions.
+    /// </summary>   
+    private void PlayStage04()
+    {
+        currentPhase += 1;
+        Instantiate(instance.stage02Phase01, gameArea.transform);
+    }
+
+    /// <summary>
+    /// Ends the second stage.
+    /// Fight against minions.
+    /// </summary>   
+    private void PlayStage05()
+    {
+        currentPhase += 1;
+        Instantiate(instance.stage02Phase02, gameArea.transform);
+    }
+
+    /// <summary>
+    /// Starts the third stage.
+    /// Fight against the boss.
+    /// </summary>   
+    private void PlayStage06()
+    {
+        currentPhase += 1;
+        Instantiate(instance.stage03Phase01, gameArea.transform);
     }
 }
 

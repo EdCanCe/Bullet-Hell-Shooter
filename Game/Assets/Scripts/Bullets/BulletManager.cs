@@ -1,5 +1,7 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
+using NCalc;
 
 /// <summary>
 /// The creator of bullets and rounds of bullets.
@@ -43,12 +45,6 @@ class BulletManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-
-        // Initializes the pool of bullets
-        for (int i = 0; i < BulletPool.Length; i++)
-        {
-            BulletPool[i] = new List<GameObject>();
         }
 
         // Establishes the edges
@@ -175,13 +171,17 @@ class BulletManager : MonoBehaviour
     /// <param name="extraSpeed">A math formula for any extra speed in the bullets.</param>
     public static void PlaceRound(int bullet, Vector3 position, int amount, float extraAngle, float acceleration, string extraSpeed)
     {
+        // Evaluates the extra speed function
+        Expression addedSpeed = new Expression(extraSpeed);
+        
         // I get the degrees each bullet will be away from each other
         float separation = 360f / amount;
 
         // All the bullets are created
         for (int i = 0; i < amount; i++)
         {
-            Place(bullet, position, instance.baseAngle + extraAngle + separation * i, 0, acceleration);
+            addedSpeed.Parameters["x"] = separation * i;
+            Place(bullet, position, instance.baseAngle + extraAngle + separation * i, (float)Convert.ToDouble(addedSpeed.Evaluate()), acceleration);
         }
     }
 
@@ -220,6 +220,18 @@ class BulletManager : MonoBehaviour
         else
         {
             GameManager.ModifyCurrentEnemyBullets(1);
+        }
+    }
+
+    /// <summary>
+    /// Initializes the pool to clean it.
+    /// </summary>
+    public static void Initialize()
+    {
+        // Initializes the pool of bullets
+        for (int i = 0; i < BulletPool.Length; i++)
+        {
+            BulletPool[i] = new List<GameObject>();
         }
     }
 }

@@ -19,7 +19,7 @@ public class EnemyS01P01Script : BaseEnemyScript
     /// Is called once per frame.
     /// </summary>
     void Update()
-    {
+    {        
         bulletCounter -= Time.deltaTime;
 
         // When the counter reaches 0, it's time to fire another round
@@ -29,7 +29,7 @@ public class EnemyS01P01Script : BaseEnemyScript
             bulletCounter = bulletTimer;
 
             // Places a round of bullets
-            BulletManager.PlaceRound(1, transform.position, 1, 0, 0, "");
+            BulletManager.PlaceRound(1, transform.position, 1, 0, 0, "0");
         }
     }
 }

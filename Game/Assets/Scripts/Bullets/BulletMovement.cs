@@ -42,4 +42,17 @@ public class BulletMovement : MonoBehaviour
         // Rotates the bullet
         transform.Rotate(0, 0, acceleration * Time.deltaTime);
     }
+
+    /// <summary>
+    /// If the bullet is disabled, and the player
+    /// loses, it destroys its object to clean the
+    /// game area.
+    /// </summary>
+    void OnDisable()
+    {
+        if (GameManager.healthPoints <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
