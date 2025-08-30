@@ -75,7 +75,7 @@ public class EnemyS02P01Script : BaseEnemyScript
         // Moves the enemy towards its starting position
         StartCoroutine(MoveToFrom(transform.position, initialPosition, 1.5f));
 
-        // Waits untis the coroutine ends
+        // Waits until the coroutine ends
         while (lastMovement == -1)
         {
             yield return null;

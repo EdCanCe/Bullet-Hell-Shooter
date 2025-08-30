@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+using System.Collections;
 
 /// <summary>
 /// Manages the audio that plays in the game.
@@ -15,7 +17,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource bossSong;
 
     // To use singleton pattern
-    private static SoundManager instance;
+    public static SoundManager instance;
 
     /// <summary>
     /// Assures only one Sound Manager exists at the
@@ -71,5 +73,57 @@ public class SoundManager : MonoBehaviour
     public static void EnemyShot02()
     {
         instance.enemyShot01.Play(0);
+    }
+
+    /// <summary>
+    /// Starts playing the normal and boss mode songs.
+    /// </summary>
+    public static void StartSong()
+    {
+        instance.normalSong.volume = 0.35f;
+        instance.bossSong.volume = 0f;
+
+        instance.normalSong.Play(0);
+        instance.bossSong.Play(0);
+    }
+
+    /// <summary>
+    /// Stops the songs from playing.
+    /// </summary>
+    public static void EndSong()
+    {
+        instance.normalSong.Stop();
+        instance.bossSong.Stop();
+    }
+
+    /// <summary>
+    /// Switches the songs.
+    /// </summary>
+    public void SwitchSong()
+    {
+        StartCoroutine(TransitionSongs());
+    }
+
+    /// <summary>
+    /// In 6 seconds, makes a transition to switch
+    /// the songs.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator TransitionSongs()
+    {
+        float transitionCounter = 0;
+
+        while (transitionCounter <= 6)
+        {
+            transitionCounter += Time.deltaTime;
+
+            instance.normalSong.volume = Math.Abs(3 - transitionCounter) / 6 * 0.35f;
+            instance.bossSong.volume = transitionCounter / 6 * 0.40f;
+
+            yield return null;
+        }
+
+        instance.normalSong.volume = 0f;
+        instance.bossSong.volume = 0.40f;
     }
 }

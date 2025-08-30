@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject stage03Phase01;
 
     // The amount of enemies defeated by the player
-    private static int enemiesDefeated;
+    public static int enemiesDefeated;
     private static int currentPhase;
 
     // To use singleton pattern
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         currentStage = 1;
         currentEnemies = 0;
         currentEnemyBullets = 0;
-        healthPoints = 3;
+        healthPoints = 5;
         currentPlayerBullets = 0;
         nextBulletTime = 0;
         enemiesDefeated = 0;
@@ -168,6 +168,10 @@ public class GameManager : MonoBehaviour
             // If there are no health points, you lose the game
             Lose();
         }
+        else if (enemiesDefeated == 12)
+        {
+            Win();
+        }
         else if (currentPhase == 0)
         {
             PlayStage01();
@@ -219,6 +223,12 @@ public class GameManager : MonoBehaviour
 
         float waitCounter = 0;
 
+        // Since it goes to the final stage, changes the music
+        if (nextStage == 3)
+        {
+            SoundManager.instance.SwitchSong();
+        }
+
         // Waits half the time
         while (waitCounter <= timeToWait)
         {
@@ -239,12 +249,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // Since it goes to the final stage, changes the music
-        if (nextStage == 3)
-        {
-
-        }
-
         // The enemy of wating time without doing nothing ;)
         currentPhase += 1;
     }
@@ -255,6 +259,7 @@ public class GameManager : MonoBehaviour
     private void ShowMenu()
     {
         BulletManager.Initialize();
+        SoundManager.EndSong();
 
         // Shows the menu
         gameArea.SetActive(false);
@@ -278,12 +283,24 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// When the user wins, it shows the main menu.
+    /// </summary>
+    private void Win()
+    {
+        UIManager.UpdateMenuTitle("YOU WIN");
+        UIManager.UpdatePlayButton("PLAY AGAIN");
+
+        ShowMenu();
+    }
+
+    /// <summary>
     /// Starts the first stage.
     /// This stage is the introduction.
     /// </summary>
     private void PlayStage01()
     {
         currentPhase += 1;
+        SoundManager.StartSong();
         Instantiate(instance.stage01Phase01, gameArea.transform);
     }
 
@@ -335,6 +352,5 @@ public class GameManager : MonoBehaviour
     {
         currentPhase += 1;
         Instantiate(instance.stage03Phase01, gameArea.transform);
-    }
+    }   
 }
-

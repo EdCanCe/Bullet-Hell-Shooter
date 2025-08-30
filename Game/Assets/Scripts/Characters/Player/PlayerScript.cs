@@ -103,8 +103,8 @@ public class PlayerScript : CharacterScript
         {
             GameManager.ModifyHealthPoints(-1);
 
-            // If has no health points, the enemy dies
-            if (GameManager.healthPoints <= 0)
+            // If has no health points or wins, the player gets destroyed
+            if (GameManager.healthPoints <= 0 || GameManager.enemiesDefeated >= 12)
             {
                 SoundManager.KillSFX();
                 Destroy(gameObject);

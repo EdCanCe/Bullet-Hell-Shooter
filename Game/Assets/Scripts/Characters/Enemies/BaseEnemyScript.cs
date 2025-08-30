@@ -17,6 +17,7 @@ public class BaseEnemyScript : CharacterScript
     // Used to know when to move the enemy again
     protected bool activateNextMovement;
     protected int lastMovement;
+    protected bool enoughDamage;
 
     // The health points the enemy has
     public int healthPoints;
@@ -32,21 +33,10 @@ public class BaseEnemyScript : CharacterScript
         bulletCounter = 0;
         lastMovement = -1;
         activateNextMovement = true;
+        enoughDamage = false;
 
         // Adds an enemy to the UI
         GameManager.ModifyCurrentEnemies(1);
-    }
-
-    /// <summary>
-    /// If the enemy gets disabled and the player loses,
-    /// it destroys its object.
-    /// </summary>
-    void OnDisable()
-    {
-        if (GameManager.healthPoints <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     /// <summary>
@@ -71,6 +61,12 @@ public class BaseEnemyScript : CharacterScript
         {
             transform.position = Vector3.Lerp(currentPoint, endingPoint, timeElapsed / travelTime);
             timeElapsed += Time.deltaTime;
+
+            // If it has enough damage to start the next phase, stops the animation
+            if (enoughDamage)
+            {
+                yield break;
+            }
 
             yield return null;
         }
@@ -114,6 +110,12 @@ public class BaseEnemyScript : CharacterScript
                 transform.position = currentDistance + center;
 
                 timeElapsed += Time.deltaTime;
+
+                // If it has enough damage to start the next phase, stops the animation
+                if (enoughDamage)
+                {
+                    yield break;
+                }
 
                 yield return null;
             }

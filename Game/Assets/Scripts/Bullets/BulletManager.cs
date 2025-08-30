@@ -173,6 +173,7 @@ class BulletManager : MonoBehaviour
     {
         // Evaluates the extra speed function
         Expression addedSpeed = new Expression(extraSpeed);
+        addedSpeed.Parameters["Pi"] = 3.1416;
         
         // I get the degrees each bullet will be away from each other
         float separation = 360f / amount;

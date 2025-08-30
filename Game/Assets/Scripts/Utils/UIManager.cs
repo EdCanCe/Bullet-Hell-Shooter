@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
     /// <param name="value">The value it will be modified to.</param>
     public static void UpdateHealthPoints(int value)
     {
-        instance.healthPoints.text = Convert.ToString(value) + " / 3";
+        instance.healthPoints.text = Convert.ToString(value) + " / 5";
     }
 
     /// <summary>

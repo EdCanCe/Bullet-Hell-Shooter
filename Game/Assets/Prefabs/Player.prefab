@@ -387,5 +387,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
   tickAmount: 8
-  baseSpeed: 160
+  baseSpeed: 180
   timeToShoot: 0.15

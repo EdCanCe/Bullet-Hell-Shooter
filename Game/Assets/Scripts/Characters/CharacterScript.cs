@@ -80,4 +80,16 @@ public class CharacterScript : MonoBehaviour
         // Ends the immortality
         immortal = false;
     }
+
+    /// <summary>
+    /// If the character gets disabled and the player loses or wins,
+    /// it destroys the object.
+    /// </summary>
+    void OnDisable()
+    {
+        if (GameManager.healthPoints <= 0 || GameManager.enemiesDefeated >= 12)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

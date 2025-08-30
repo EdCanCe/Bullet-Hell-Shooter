@@ -45,12 +45,12 @@ public class BulletMovement : MonoBehaviour
 
     /// <summary>
     /// If the bullet is disabled, and the player
-    /// loses, it destroys its object to clean the
-    /// game area.
+    /// loses or wins, it destroys its object
+    /// to clean the game area.
     /// </summary>
     void OnDisable()
     {
-        if (GameManager.healthPoints <= 0)
+        if (GameManager.healthPoints <= 0 || GameManager.enemiesDefeated >= 12)
         {
             Destroy(gameObject);
         }
