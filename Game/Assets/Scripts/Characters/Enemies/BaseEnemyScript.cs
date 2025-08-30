@@ -1,25 +1,23 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// The base methods and attributes every enemy has.
 /// </summary>
-public class BaseEnemyScript : MonoBehaviour
+public class BaseEnemyScript : CharacterScript
 {
     // The time between each of the rounds the enemy has
-    public float bulletTimer;
+    protected float bulletTimer;
     protected float bulletCounter;
 
-    // The game area that the enemy is held in
-    public GameObject gameArea;
-
-    // The type of bullet the enemy has
-    public int bulletType;
-
     // The path the enemy follows
-    public Vector3 startingPosition;
-    public Vector3 endingPosition;
-    public float travelTime;
+    public List<Vector3> checkpoints;
+
+    // Used to know when to move the enemy again
+    protected bool activateNextMovement;
+    protected int lastMovement;
+    protected bool enoughDamage;
 
     // The health points the enemy has
     public int healthPoints;
@@ -29,13 +27,20 @@ public class BaseEnemyScript : MonoBehaviour
     /// </summary>
     protected void EnemyStart()
     {
+        CharacterStart();
+
+        // Initializes the bullet counter and the movement flags
         bulletCounter = 0;
+        lastMovement = -1;
+        activateNextMovement = true;
+        enoughDamage = false;
+
+        // Adds an enemy to the UI
         GameManager.ModifyCurrentEnemies(1);
-        StartCoroutine(MoveToFrom(startingPosition, endingPosition, travelTime));
     }
 
     /// <summary>
-    /// A corroutine used to move the enemy.
+    /// A coroutine used to move the enemy.
     /// </summary>
     /// <param name="startingPoint">The place the enemy will start.</param>
     /// <param name="endingPoint">The place the enemy will end.</param>
@@ -43,6 +48,9 @@ public class BaseEnemyScript : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveToFrom(Vector3 startingPoint, Vector3 endingPoint, float travelTime)
     {
+        // Locks the flag to prevent from moving
+        activateNextMovement = false;
+
         transform.position = startingPoint;
 
         Vector3 currentPoint = startingPoint;
@@ -54,11 +62,68 @@ public class BaseEnemyScript : MonoBehaviour
             transform.position = Vector3.Lerp(currentPoint, endingPoint, timeElapsed / travelTime);
             timeElapsed += Time.deltaTime;
 
+            // If it has enough damage to start the next phase, stops the animation
+            if (enoughDamage)
+            {
+                yield break;
+            }
+
             yield return null;
         }
 
-        // Goes back to its starting point
-        StartCoroutine(MoveToFrom(endingPoint, startingPoint, travelTime));
+        // Frees the flag to enable movement again
+        activateNextMovement = true;
+        lastMovement += 1;
+    }
+
+    /// <summary>
+    /// A coroutine used to move the enemy in circles. 
+    /// </summary>
+    /// <param name="center">The center of the circle.</param>
+    /// <param name="amountOfLoops">The amount of loops to do.</param>
+    /// <param name="travelTime">The time to do all of the loops.</param>
+    /// <returns></returns>
+    protected IEnumerator MoveAround(Vector3 center, int amountOfLoops, float travelTime)
+    {
+        // Locks the flag to prevent from moving
+        activateNextMovement = false;
+
+        // Gets the starting distance to the center
+        Vector3 startingDistance = transform.position - center;
+
+        // Time variables needed to do the movement in the given time 
+        float timeElapsed = 0;
+        float timePerLoop = travelTime / amountOfLoops;
+
+        // The current distance the enemy is from the center
+        Vector3 currentDistance;
+
+        // Each one of the loops;
+        for (int i = 0; i < amountOfLoops; i++)
+        {
+            while (timeElapsed < travelTime)
+            {
+                // Updates the distante to the one it needs to be
+                currentDistance = VectorManager.Rotate(startingDistance, timeElapsed / timePerLoop * 360f);
+
+                // Adds the distance to the center, to obtain its position
+                transform.position = currentDistance + center;
+
+                timeElapsed += Time.deltaTime;
+
+                // If it has enough damage to start the next phase, stops the animation
+                if (enoughDamage)
+                {
+                    yield break;
+                }
+
+                yield return null;
+            }
+        }
+
+        // Frees the flag to enable movement again
+        activateNextMovement = true;
+        lastMovement = -2;
     }
 
     /// <summary>
@@ -70,7 +135,7 @@ public class BaseEnemyScript : MonoBehaviour
     protected void OnTriggerEnter2D(Collider2D collision)
     {
         // If the collision is with the bullet of a hero
-        if (collision.gameObject.tag != gameObject.tag)
+        if (collision.gameObject.tag != gameObject.tag && immortal == false)
         {
             healthPoints -= 1;
 
@@ -85,7 +150,9 @@ public class BaseEnemyScript : MonoBehaviour
             }
             else
             {
+                // Plays the hit animation and SFX
                 SoundManager.HitSFX();
+                StartCoroutine(HitAnimation());
             }
 
             // Disables the bullet and updates de UI

@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI currentPlayerBullets;
     public TextMeshProUGUI nextBulletTime;
 
+    public TextMeshProUGUI menuTitle;
+    public TextMeshProUGUI playButton;
+
 
     // To use singleton pattern
     private static UIManager instance;
@@ -68,7 +71,7 @@ public class UIManager : MonoBehaviour
     /// <param name="value">The value it will be modified to.</param>
     public static void UpdateHealthPoints(int value)
     {
-        instance.healthPoints.text = Convert.ToString(value) + " / 3";
+        instance.healthPoints.text = Convert.ToString(value) + " / 5";
     }
 
     /// <summary>
@@ -95,5 +98,23 @@ public class UIManager : MonoBehaviour
         {
             instance.nextBulletTime.text = Convert.ToString((int)(value * 1000)) + "ms";
         }
+    }
+
+    /// <summary>
+    /// Updates the menu title in the UI.
+    /// </summary>
+    /// <param name="value">The value it will be modified to.</param>
+    public static void UpdateMenuTitle(string value)
+    {
+        instance.menuTitle.text = value;
+    }
+
+    /// <summary>
+    /// Updates the menu title in the UI.
+    /// </summary>
+    /// <param name="value">The value it will be modified to.</param>
+    public static void UpdatePlayButton(string value)
+    {
+        instance.playButton.text = value;
     }
 }

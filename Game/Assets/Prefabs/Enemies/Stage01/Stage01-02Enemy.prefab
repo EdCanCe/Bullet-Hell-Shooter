@@ -100,9 +100,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1012580515493824218}
   - component: {fileID: 8801928753916796136}
-  - component: {fileID: 5633176872539149452}
+  - component: {fileID: -4280341332653720661}
   m_Layer: 0
-  m_Name: Stage01Enemy
+  m_Name: Stage01-02Enemy
   m_TagString: EnemySide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,7 +119,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4638131317185437544}
   m_Father: {fileID: 0}
@@ -175,7 +175,7 @@ PolygonCollider2D:
       - {x: 0.3187828, y: 53.506622}
       - {x: -55.81428, y: 0.19825745}
   m_UseDelaunayMesh: 0
---- !u!114 &5633176872539149452
+--- !u!114 &-4280341332653720661
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,16 +184,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5899994449811048099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ec984f7bcff39d8bbb5f2c235dc3934, type: 3}
+  m_Script: {fileID: 11500000, guid: 1939ca3c81fbe85b6a3bd1ef9b43e839, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stage01Script
-  bulletTimer: 1
-  gameArea: {fileID: 0}
-  bullet: {fileID: 4424514990395266888, guid: d99819db813360f1283cc2e4360e6b43, type: 3}
-  startingPosition: {x: 0, y: 0, z: 0}
-  endingPosition: {x: 0, y: 0, z: 0}
-  travelTime: 0
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyS01P02Script
+  tickAmount: 4
+  checkpoints: []
   healthPoints: 4
-  sprite: {fileID: 4832816199539781292}
-  sprite1: {fileID: 0}
-  rotationSpeed: 0
+  initialPosition: {x: 0, y: 0, z: 0}

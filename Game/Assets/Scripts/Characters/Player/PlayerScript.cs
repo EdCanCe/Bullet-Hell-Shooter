@@ -4,12 +4,8 @@ using System;
 /// <summary>
 /// Handles the input and actions the player will do.
 /// </summary>
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : CharacterScript
 {
-    // The sprites of the player
-    public GameObject spriteRight;
-    public GameObject spriteLeft;
-
     // The base speed of the player
     public float baseSpeed;
 
@@ -33,6 +29,8 @@ public class PlayerScript : MonoBehaviour
     /// </summary>
     void Start()
     {
+        CharacterStart();
+
         // Gets the coordinates of the game area corners
         float[] edges = LimitManager.GetLimits(transform.parent.gameObject, 4);
 
@@ -82,10 +80,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKey(KeyCode.J) && counterToShoot == 0)
         {
             // The bullet is placed on the map
-            BulletManager.Place(0, transform.position, 90, 200, 0);
-
-            // A sound is played to give the player feedback
-            SoundManager.PlayerShot();
+            BulletManager.Place(0, transform.position, 90, 400, 0);
 
             // Resets the counter to shoot again
             counterToShoot = timeToShoot;
@@ -93,23 +88,23 @@ public class PlayerScript : MonoBehaviour
         }
 
         // The sprites of the player are rotated
-        spriteRight.transform.Rotate(0, 0, Time.deltaTime * baseSpeed);
-        spriteLeft.transform.Rotate(0, 0, Time.deltaTime * -baseSpeed);
+        sprites[0].transform.Rotate(0, 0, Time.deltaTime * baseSpeed);
+        sprites[1].transform.Rotate(0, 0, Time.deltaTime * -baseSpeed);
     }
     
     /// <summary>
     /// A method called when the player collides.
     /// </summary>
     /// <param name="collision">The collider that collisioned with the player.</param>
-    protected void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         // If the collision is with the bullet of an enemy
-        if (collision.gameObject.tag != gameObject.tag)
+        if (collision.gameObject.tag != gameObject.tag && immortal == false)
         {
             GameManager.ModifyHealthPoints(-1);
 
-            // If has no health points, the enemy dies
-            if (GameManager.healthPoints <= 0)
+            // If has no health points or wins, the player gets destroyed
+            if (GameManager.healthPoints <= 0 || GameManager.enemiesDefeated >= 12)
             {
                 SoundManager.KillSFX();
                 Destroy(gameObject);
@@ -119,7 +114,9 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
+                // Plays the hit animation and SFX
                 SoundManager.HitSFX();
+                StartCoroutine(HitAnimation());
             }
 
             // Disables the bullet and updates de UI
