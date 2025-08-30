@@ -1,16 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// The stage 1 enemy logic.
+/// The stage 1 phase 1 enemy logic.
 /// </summary>
-public class Stage01Script : BaseEnemyScript
+public class EnemyS01P01Script : BaseEnemyScript
 {
-    // The sprite of the enemy
-    public GameObject sprite;
-
-    // The speed it's sprite will rotate
-    public float rotationSpeed;
-
     /// <summary>
     /// Is called once before the first execution of Update
     /// after the MonoBehaviour is created.
@@ -18,13 +12,14 @@ public class Stage01Script : BaseEnemyScript
     void Start()
     {
         EnemyStart();
+        bulletTimer = 0.5f;
     }
 
     /// <summary>
     /// Is called once per frame.
     /// </summary>
     void Update()
-    {
+    {        
         bulletCounter -= Time.deltaTime;
 
         // When the counter reaches 0, it's time to fire another round
@@ -34,10 +29,7 @@ public class Stage01Script : BaseEnemyScript
             bulletCounter = bulletTimer;
 
             // Places a round of bullets
-            BulletManager.PlaceRound(1, transform.position, 6, 0, 0, "");
+            BulletManager.PlaceRound(1, transform.position, 1, 0, 0, "0");
         }
-
-        // Rotates the sprite
-        sprite.transform.Rotate(bulletType, 0, Time.deltaTime * rotationSpeed);
     }
 }

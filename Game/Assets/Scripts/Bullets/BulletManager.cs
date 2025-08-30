@@ -1,5 +1,7 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
+using NCalc;
 
 /// <summary>
 /// The creator of bullets and rounds of bullets.
@@ -43,12 +45,6 @@ class BulletManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-
-        // Initializes the pool of bullets
-        for (int i = 0; i < BulletPool.Length; i++)
-        {
-            BulletPool[i] = new List<GameObject>();
         }
 
         // Establishes the edges
@@ -128,7 +124,7 @@ class BulletManager : MonoBehaviour
         GameObject bulletObject = RequestToPool(bullet);
 
         // Positions and rotates the bullet
-        bulletObject.transform.position = position;
+        bulletObject.transform.position = new Vector3(position.x, position.y, 0);
         bulletObject.transform.rotation = Quaternion.Euler(0, 0, rotation);
 
         // I looked in ChatGPT how to access the BulletMovement component from another class
@@ -147,6 +143,20 @@ class BulletManager : MonoBehaviour
 
         // Adds a bullet to the counter in the UI
         EnableBullet(bulletObject);
+
+        // Plays its corresponding sound
+        switch (bullet)
+        {
+            case 0:
+                SoundManager.PlayerShot();
+                break;
+            case 3:
+                SoundManager.EnemyShot02();
+                break;
+            default:
+                SoundManager.EnemyShot01();
+                break;
+        }
     }
 
     /// <summary>
@@ -161,13 +171,18 @@ class BulletManager : MonoBehaviour
     /// <param name="extraSpeed">A math formula for any extra speed in the bullets.</param>
     public static void PlaceRound(int bullet, Vector3 position, int amount, float extraAngle, float acceleration, string extraSpeed)
     {
+        // Evaluates the extra speed function
+        Expression addedSpeed = new Expression(extraSpeed);
+        addedSpeed.Parameters["Pi"] = 3.1416;
+        
         // I get the degrees each bullet will be away from each other
         float separation = 360f / amount;
 
         // All the bullets are created
         for (int i = 0; i < amount; i++)
         {
-            Place(bullet, position, instance.baseAngle + extraAngle + separation * i, 0, acceleration);
+            addedSpeed.Parameters["x"] = separation * i;
+            Place(bullet, position, instance.baseAngle + extraAngle + separation * i, (float)Convert.ToDouble(addedSpeed.Evaluate()), acceleration);
         }
     }
 
@@ -206,6 +221,18 @@ class BulletManager : MonoBehaviour
         else
         {
             GameManager.ModifyCurrentEnemyBullets(1);
+        }
+    }
+
+    /// <summary>
+    /// Initializes the pool to clean it.
+    /// </summary>
+    public static void Initialize()
+    {
+        // Initializes the pool of bullets
+        for (int i = 0; i < BulletPool.Length; i++)
+        {
+            BulletPool[i] = new List<GameObject>();
         }
     }
 }
